@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Appu Murugan — Marketing Operations Portfolio | B2B SaaS" />
+<title>Appu Murugan | Marketing Ops Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#fafaf8;color:#1a1a1a;font-family:'DM Sans','Helvetica Neue',sans-serif}
+::selection{background:#b83a2a;color:#fff}
+.fade-in{animation:fadeIn .5s ease-out both}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.nav-item{cursor:pointer;padding:9px 0;border-left:2px solid transparent;padding-left:14px;transition:all .2s;font-size:13px;color:#777}
+.nav-item:hover{color:#333;border-left-color:#ccc}
+.nav-item.active{color:#b83a2a;border-left-color:#b83a2a;font-weight:600}
+.work-item{cursor:pointer;padding:14px 16px;border-bottom:1px solid #eee;transition:all .15s}
+.work-item:hover{background:#f5f4f0}
+.work-item.expanded{background:#f5f4f0}
+.tag{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;color:#b83a2a;font-weight:500}
+.tool-chip{display:inline-block;font-size:11px;padding:4px 12px;background:#f0efeb;border:1px solid #e2e0da;color:#555;margin:2px;border-radius:3px;font-family:'DM Mono',monospace}
+.section-line{width:32px;height:2px;background:#b83a2a;margin-bottom:10px}
+.stat-card{background:#fff;border:1px solid #e8e6e0;padding:22px 20px}
+.contact-link{color:#b83a2a;text-decoration:none;font-size:13px;transition:color .15s}
+.contact-link:hover{color:#8a2a1e;text-decoration:underline}
+@media(max-width:768px){
+.main-grid{grid-template-columns:1fr!important}
+.hero-grid{grid-template-columns:repeat(2,1fr)!important}
+.nav-sidebar{display:flex;overflow-x:auto;gap:0;border-bottom:1px solid #e8e6e0;margin-bottom:20px}
+.nav-sidebar .nav-item{border-left:none;border-bottom:2px solid transparent;padding:8px 14px;white-space:nowrap;font-size:11px}
+.nav-sidebar .nav-item.active{border-left:none;border-bottom-color:#b83a2a}
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState } = React;
+
+const PROJECTS = [
+  {
+    id: "dashboards",
+    tag: "DASHBOARDS & REPORTING",
+    title: "Built 5 Looker Studio Dashboards from Scratch",
+    context: "The growth team had no centralized view of marketing performance. Reporting was manual, inconsistent, and scattered across HubSpot reports and spreadsheets. Leadership couldn't answer basic questions like \"which channel drives the most revenue?\" without asking someone to pull data.",
+    work: [
+      { name: "Growth Marketing Dashboard", detail: "Tracks daily inbound lead flows \u2014 MQL trends, source/region/country breakdowns, MoM heatmaps, paid channel performance, and MQL vs Non-MQL splits. The growth team monitors this daily." },
+      { name: "SEO Dashboard (GSC + GA4)", detail: "Combines Google Search Console data with GA4 to track impressions (8.92M), clicks (15.9K), keyword position buckets, page-level performance, and AI referral traffic (ChatGPT, Perplexity, Gemini, Claude). Built country-level click distribution and bucket-wise keyword trend analysis." },
+      { name: "Web Funnel Dashboard", detail: "Tracks the full website conversion funnel \u2014 Homepage \u2192 Pricing \u2192 Signup/Demo \u2192 Thank You. Measures form visits (1,567), signup submits (647), demo completions (72), and source/medium conversion rates. Includes funnel visualization and MoM comparison." },
+      { name: "Google Ads Change History Dashboard", detail: "Tracks every campaign change made by the growth team \u2014 bid changes, targeting updates, status changes \u2014 with user attribution, day-of-week heatmaps, before/after comparisons, and real-time campaign performance correlation. Built on BigQuery with 8 SQL queries powering the backend." },
+      { name: "Marketing Funnel Dashboard", detail: "Contact-to-deal level funnel tracking \u2014 MQL \u2192 SAL \u2192 Open Deals \u2192 Won/Customer. Monthly, region, campaign, and channel cohort tables with full pipeline and ARR metrics. Built with blended HubSpot data sources." },
+    ],
+    tools: ["Looker Studio", "BigQuery", "GA4", "Google Search Console", "HubSpot"],
+    impact: "Reduced reporting time from hours to real-time. Growth team now self-serves data instead of requesting ad-hoc pulls.",
+  },
+  {
+    id: "automation",
+    tag: "AI & AUTOMATION",
+    title: "Designed and Deployed 9 n8n Automation Agents",
+    context: "AEs were spending time on junk leads. Outbound lists included existing customers. Lead categorization (MSP vs IT) was manual and inconsistent. There was no systematic way to catch leads that fell through the cracks.",
+    work: [
+      { name: "Outbound Accounts Deduplication Agent  \u2713 Live", detail: "Eliminates customers, prospects, and partners from the website visitors list before it goes to SDRs. Runs against CRM data automatically. In production." },
+      { name: "MSP/IT Classification Agent  \u2713 Live", detail: "Scrapes website content for outbound accounts and classifies them as MSP or IT using NLP. Accuracy at ~90%. Replaced a fully manual process. In production." },
+      { name: "Lead Category Validator  \u2713 Live", detail: "Validates user-submitted lead categories against actual business data to ensure correct routing. Catches misclassifications before they hit the sales team. In production." },
+      { name: "Inbound Lead Qualification Agent  \u2713 Live", detail: "Validates email domains, flags test/duplicate leads, checks for disposable email providers. Prevents junk from entering the pipeline. In production." },
+      { name: "Account Qualifying Agent  \u2713 Live", detail: "Qualifies inbound accounts by enriching company data and validating against ICP criteria before routing to sales. In production." },
+      { name: "Weekly Responded Leads Audit Agent", detail: "Identifies prospects who responded to AE outreach and had a demo but have no deal created yet. Catches revenue leakage from missed follow-ups." },
+      { name: "Marketing AI Slack Query Agent", detail: "Lets the team query marketing data directly from Slack using natural language. Pulls from Ads, GA4, and GSC data sources." },
+      { name: "Ads + GA4 + GSC Brain", detail: "AI agent that synthesizes performance data across paid and organic channels for executive summaries." },
+      { name: "SuperOps Blog Creation Agent", detail: "Automates blog content creation workflow with AI-assisted drafting and publishing pipeline." },
+    ],
+    tools: ["n8n", "HubSpot API", "OpenAI", "BigQuery", "Slack"],
+    impact: "5 agents in production handling lead qualification, deduplication, categorization, and data enrichment. Reduced junk leads reaching AEs. Saved ~5 hours/week of manual list cleaning.",
+  },
+  {
+    id: "processes",
+    tag: "PROCESS & SYSTEMS",
+    title: "Built the Operating System for Marketing Ops",
+    context: "When I joined, there was no standardized process for lead routing, payment approvals, webinar execution, or data hygiene. Each team member had their own way of doing things.",
+    work: [
+      { name: "Inbound Lead Assignment Process", detail: "Documented the full lead routing workflow \u2014 from form submission to AE assignment. Covers geography-based routing, technician size segmentation (SMB vs MM), round-robin distribution, RevenueHero integration, and exception handling for duplicates and reassignments." },
+      { name: "Marketing Payments Workflow", detail: "Built the end-to-end payment approval process on Monday.com \u2014 from request submission through budget validation (MarkOps), functional approval (Growth/Marketing Head), to finance processing. Includes Partnerstack affiliate payment flow." },
+      { name: "Webinar Attribution & Distribution Playbook", detail: "Created the full webinar execution playbook \u2014 4-week timeline, attribution framework (Marketing-Created vs Marketing-Influenced), lead routing rules (Hot/Engaged/Cold), content repurposing strategy, and post-event GTM sync process." },
+      { name: "Lead Qualification Scenarios & SOP", detail: "Defined lead lifecycle rules \u2014 reassignment timelines (60 days SMB, 90 days MM for leads without opps), handling of old leads, unqualified lead processing, and customer retention periods." },
+      { name: "HubSpot List Segmentation Inventory", detail: "Created and documented 8 dynamic HubSpot lists \u2014 Website Visitors, Product Webinars, Events, Prospects, Active Customers, Churn, Cold Leads \u2014 with filters, sync frequency, and ownership." },
+      { name: "MarkOps Hygiene Checklist", detail: "Daily checks (UTM parameters, source drill-downs, region mapping, lead category validation), weekly checks (old lead signups, deal-contact association), and monthly checks (lead number finalization, base data creation, property standardization)." },
+    ],
+    tools: ["HubSpot", "Monday.com", "RevenueHero", "Google Docs"],
+    impact: "Standardized operations across the marketing team. Reduced lead routing errors. Created repeatable processes that scale without adding headcount.",
+  },
+  {
+    id: "data",
+    tag: "DATA & CRM",
+    title: "CRM Architecture & Data Governance",
+    context: "The HubSpot instance had inconsistent property values, duplicate contacts, lifecycle stages that didn't match the actual sales process, and no documented metrics glossary.",
+    work: [
+      { name: "Funnel Metrics Glossary", detail: "Defined every metric the business uses \u2014 Total Leads, MQL, SAL, Deals Created, Customers, Pipeline, ARR, ARPU, CPL, ROAS, ROMI \u2014 with exact data sources, inclusion/exclusion rules (e.g., Pax8 and reseller deals excluded from pipeline), and calculation methods." },
+      { name: "Lifecycle Stage Implementation", detail: "Audited all contacts and companies, mapped them to new lifecycle stages, built supporting workflows, and migrated records. Created reports to track the transition." },
+      { name: "UTM Framework", detail: "Standardized UTM parameters across all channels and campaigns. Built daily hygiene checks to catch misconfigurations before they pollute reporting." },
+      { name: "BigQuery Data Layer (3 Projects)", detail: "Built 3 BigQuery projects \u2014 Google Ads Change History (8 SQL queries for heatmaps, user leaderboards, before/after analysis), campaign real-time metrics pipeline, and a SaaS tool prototype for campaign log tracking with Supabase backend." },
+      { name: "Unqualified Lead Analysis", detail: "Built analysis of unqualified leads to identify patterns \u2014 junk lead sources, duplicate rates, same-company submissions \u2014 and used findings to tighten inbound qualification logic." },
+    ],
+    tools: ["HubSpot", "BigQuery", "Google Sheets", "Looker Studio"],
+    impact: "Single source of truth for marketing metrics. Eliminated ambiguity in how the team defines and measures performance.",
+  },
+  {
+    id: "execution",
+    tag: "CAMPAIGN OPS",
+    title: "134 Tasks Completed Across 10 Months",
+    context: "Beyond building systems, the day-to-day of marketing ops at a scaling SaaS company means constant execution \u2014 email campaigns, workflow modifications, lead list imports, routing changes, webinar setups, and cross-functional requests.",
+    work: [
+      { name: "Webinar Operations", detail: "End-to-end execution for every product webinar \u2014 registration tracking in HubSpot, email promotion sequences (3-4 comms per webinar), audience segmentation (customers, prospects, partners), post-webinar analysis (new leads, attendance rates, pipeline influence)." },
+      { name: "Lead Routing Modifications", detail: "Managed RevenueHero distribution rules, HubSpot assignment workflows, and AE onboarding \u2014 added new reps, configured MM distribution rules for Europe, handled region-specific routing logic." },
+      { name: "Email Campaign Execution", detail: "Created and published HubSpot marketing emails \u2014 AI webinar series, community AMA comms, Omdia webinar promotions, Bugle magazine distribution, product update notifications. Managed audience overlap and exclusion lists." },
+      { name: "Data Operations", detail: "Imported outbound lead lists, created and managed base data static lists, handled contact owner updates for deactivated users, unpublished unused workflows, and maintained CRM property standardization." },
+    ],
+    tools: ["HubSpot", "RevenueHero", "Monday.com", "Zapier"],
+    impact: "55 tasks completed in 2025, 79 in 2026 (Q1 alone). Zero missed deadlines on webinar operations.",
+  },
+];
+
+const GOALS = [
+  { title: "Dashboards & Visibility", desc: "CMO Dashboard, Inbound Breakdown, SEO, Web Funnel, SDR Performance, Webinar & Events" },
+  { title: "Data Governance", desc: "UTM framework, CRM field maintenance, Lead Scoring model, Data QA across all channels" },
+  { title: "Lead Routing", desc: "All routing workflows, inbound lead qualification to reduce junk before AE assignment" },
+  { title: "Marketing Tech Stack", desc: "Manage renewals & usage, explore new tools, implement AI agents for manual processes" },
+  { title: "Full-Funnel Visibility", desc: "Channel-wise funnel tracking for all inbound leads from lead to customer" },
+  { title: "AI Agents", desc: "Build agents to replace existing manual processes across lead validation, enrichment, and reporting" },
+];
+
+function App() {
+  const [activeProject, setActiveProject] = useState("dashboards");
+  const [expandedWork, setExpandedWork] = useState(null);
+  const project = PROJECTS.find((p) => p.id === activeProject);
+
+  return (
+    <div style={{ minHeight: "100vh" }}>
+      {/* HEADER */}
+      <header style={{ padding: "48px 5% 0", maxWidth: 1100, margin: "0 auto" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 20 }}>
+          <div>
+            <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, color: "#999", letterSpacing: "0.12em", marginBottom: 10 }}>MARKETING OPS PORTFOLIO</div>
+            <h1 style={{ fontSize: "clamp(30px, 4.5vw, 46px)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.03em", color: "#111" }}>
+              Appu Murugan<span style={{ color: "#b83a2a" }}>.</span>
+            </h1>
+            <p style={{ fontSize: 15, color: "#666", maxWidth: 520, lineHeight: 1.7, marginTop: 10 }}>
+              Marketing Operations at SuperOps (B2B SaaS, Series A).
+              I build the systems, dashboards, and automation that connect marketing spend to pipeline and revenue.
+            </p>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 6, paddingTop: 10 }}>
+            <a href="https://www.linkedin.com/in/appu-murugan-32b74a18b/" target="_blank" rel="noopener noreferrer" className="contact-link" style={{ fontFamily: "'DM Mono', monospace" }}>LinkedIn \u2197</a>
+            <a href="mailto:appumorgan4507@gmail.com" className="contact-link" style={{ fontFamily: "'DM Mono', monospace" }}>appumorgan4507@gmail.com</a>
+          </div>
+        </div>
+      </header>
+
+      {/* STATS */}
+      <section style={{ padding: "32px 5%", maxWidth: 1100, margin: "0 auto" }}>
+        <div className="hero-grid" style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 12 }}>
+          {[
+            { n: "5", l: "Looker Studio Dashboards", s: "Built from scratch" },
+            { n: "9", l: "n8n Automation Agents", s: "5 in production" },
+            { n: "134", l: "Tasks Completed", s: "2025\u20132026" },
+            { n: "3", l: "BigQuery Projects", s: "SQL + data pipelines" },
+            { n: "6", l: "SOPs & Playbooks", s: "Documented & shipped" },
+          ].map((s, i) => (
+            <div key={i} className="stat-card fade-in" style={{ animationDelay: `${i * 0.07}s` }}>
+              <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "clamp(26px, 3vw, 36px)", fontWeight: 700, color: "#b83a2a", lineHeight: 1 }}>{s.n}</div>
+              <div style={{ fontSize: 12, fontWeight: 600, color: "#333", marginTop: 6 }}>{s.l}</div>
+              <div style={{ fontSize: 11, color: "#999", marginTop: 2 }}>{s.s}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* MAIN */}
+      <main style={{ padding: "10px 5% 60px", maxWidth: 1100, margin: "0 auto" }}>
+        <div className="main-grid" style={{ display: "grid", gridTemplateColumns: "180px 1fr", gap: 40 }}>
+          <nav className="nav-sidebar" style={{ position: "sticky", top: 20, alignSelf: "start" }}>
+            {PROJECTS.map((p) => (
+              <div key={p.id} className={`nav-item ${activeProject === p.id ? "active" : ""}`} onClick={() => { setActiveProject(p.id); setExpandedWork(null); }}>
+                {p.tag.split(" & ")[0]}
+              </div>
+            ))}
+          </nav>
+
+          <div className="fade-in" key={activeProject}>
+            <div className="tag">{project.tag}</div>
+            <h2 style={{ fontSize: "clamp(20px, 2.5vw, 28px)", fontWeight: 700, marginTop: 8, marginBottom: 18, letterSpacing: "-0.02em", lineHeight: 1.25, color: "#111" }}>{project.title}</h2>
+
+            <div style={{ marginBottom: 26 }}>
+              <div className="section-line"></div>
+              <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, color: "#999", letterSpacing: "0.1em", marginBottom: 6 }}>THE PROBLEM</div>
+              <p style={{ fontSize: 14, color: "#666", lineHeight: 1.7, maxWidth: 620 }}>{project.context}</p>
+            </div>
+
+            <div style={{ marginBottom: 26 }}>
+              <div className="section-line"></div>
+              <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, color: "#999", letterSpacing: "0.1em", marginBottom: 10 }}>WHAT I BUILT</div>
+              <div style={{ border: "1px solid #e8e6e0", borderRadius: 4, overflow: "hidden", background: "#fff" }}>
+                {project.work.map((w, i) => (
+                  <div key={i} className={`work-item ${expandedWork === i ? "expanded" : ""}`} onClick={() => setExpandedWork(expandedWork === i ? null : i)}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <span style={{ fontSize: 14, fontWeight: 500, color: expandedWork === i ? "#111" : "#444" }}>{w.name}</span>
+                      <span style={{ fontSize: 16, color: "#bbb", fontWeight: 300, width: 20, textAlign: "center" }}>{expandedWork === i ? "\u2212" : "+"}</span>
+                    </div>
+                    {expandedWork === i && (
+                      <p className="fade-in" style={{ fontSize: 13, color: "#777", lineHeight: 1.7, marginTop: 10, paddingRight: 20 }}>{w.detail}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ marginBottom: 26 }}>
+              <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, color: "#999", letterSpacing: "0.1em", marginBottom: 8 }}>TOOLS USED</div>
+              <div>{project.tools.map((t, i) => <span key={i} className="tool-chip">{t}</span>)}</div>
+            </div>
+
+            <div style={{ padding: "16px 20px", borderLeft: "3px solid #b83a2a", background: "#fdf8f6", borderRadius: "0 4px 4px 0" }}>
+              <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, color: "#b83a2a", letterSpacing: "0.1em", marginBottom: 4 }}>IMPACT</div>
+              <p style={{ fontSize: 14, color: "#555", lineHeight: 1.6 }}>{project.impact}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* GOALS */}
+        <div style={{ marginTop: 56, paddingTop: 36, borderTop: "1px solid #e8e6e0" }}>
+          <div className="section-line"></div>
+          <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, color: "#999", letterSpacing: "0.1em", marginBottom: 4 }}>2026 MARKOPS GOALS I OWNED</div>
+          <h3 style={{ fontSize: 22, fontWeight: 700, marginBottom: 18, letterSpacing: "-0.02em", color: "#111" }}>Strategic Roadmap</h3>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 10 }}>
+            {GOALS.map((g, i) => (
+              <div key={i} className="stat-card" style={{ padding: "16px 18px" }}>
+                <div style={{ fontSize: 13, fontWeight: 600, color: "#222", marginBottom: 3 }}>{g.title}</div>
+                <div style={{ fontSize: 12, color: "#888", lineHeight: 1.5 }}>{g.desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* DAILY */}
+        <div style={{ marginTop: 48, paddingTop: 36, borderTop: "1px solid #e8e6e0" }}>
+          <div className="section-line"></div>
+          <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, color: "#999", letterSpacing: "0.1em", marginBottom: 4 }}>DAY-TO-DAY</div>
+          <h3 style={{ fontSize: 22, fontWeight: 700, marginBottom: 18, letterSpacing: "-0.02em", color: "#111" }}>What I Do Every Day</h3>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 12 }}>
+            {[
+              "Validate UTM parameters on every inbound lead",
+              "Ensure only signup/demo forms populate Inbound Lead Month",
+              "Update Region, Lead Category, Tech Size when prospects leave them blank",
+              "Verify correct team handles leads from their bucket only",
+              "Monitor demo lead routing through RevenueHero",
+              "Property standardization and source drill-down checks",
+              "Manage cross-functional requests from Growth, PMM, Sales, and Partnerships",
+            ].map((item, i) => (
+              <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+                <div style={{ width: 5, height: 5, borderRadius: 3, background: "#b83a2a", marginTop: 6, flexShrink: 0 }}></div>
+                <span style={{ fontSize: 13, color: "#666", lineHeight: 1.55 }}>{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* STACK */}
+        <div style={{ marginTop: 48, paddingTop: 36, borderTop: "1px solid #e8e6e0" }}>
+          <div className="section-line"></div>
+          <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, color: "#999", letterSpacing: "0.1em", marginBottom: 4 }}>STACK</div>
+          <h3 style={{ fontSize: 22, fontWeight: 700, marginBottom: 18, letterSpacing: "-0.02em", color: "#111" }}>Tools I Work With</h3>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+            {["HubSpot (CRM, Workflows, Marketing Hub)", "Looker Studio", "BigQuery (SQL)", "Google Analytics 4", "Google Search Console", "Google Ads", "n8n (Workflow Automation)", "RevenueHero (Lead Routing)", "Monday.com (Project Mgmt)", "Zapier", "ZoomInfo (Enrichment)", "Google Sheets (Advanced)", "Slack Integrations", "Intercom"].map((t, i) => (
+              <span key={i} className="tool-chip" style={{ fontSize: 12, padding: "5px 14px" }}>{t}</span>
+            ))}
+          </div>
+        </div>
+
+        {/* FOOTER */}
+        <div style={{ marginTop: 56, paddingTop: 28, borderTop: "1px solid #e8e6e0", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
+          <div>
+            <div style={{ fontSize: 20, fontWeight: 700, color: "#111" }}>Appu Murugan<span style={{ color: "#b83a2a" }}>.</span></div>
+            <div style={{ fontSize: 12, color: "#999", marginTop: 2 }}>Marketing Operations \u2022 B2B SaaS \u2022 4+ Years</div>
+          </div>
+          <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
+            <a href="https://www.linkedin.com/in/appu-murugan-32b74a18b/" target="_blank" rel="noopener noreferrer" className="contact-link" style={{ fontFamily: "'DM Mono', monospace" }}>LinkedIn \u2197</a>
+            <a href="mailto:appumorgan4507@gmail.com" className="contact-link" style={{ fontFamily: "'DM Mono', monospace" }}>Email \u2197</a>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
